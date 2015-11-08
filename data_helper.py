@@ -2,25 +2,21 @@ __author__ = 'jose'
 
 import pandas as pd
 import prepare_text
-
-integra_index = 4
-diario_index = 2
-
+from constants import *
 
 def read_csv(filename):
     csv_train = pd.read_csv(filename, header=None, delimiter=",")
-
     print csv_train.shape
-    print csv_train.columns.values
-
     return csv_train
 
+def save_file(data, filename):
+    data.to_csv(clean_text_directory + filename, header=False, index=False)
 
 def is_relevant(diario):
     return diario.startswith("dou") or diario.startswith("doe")
 
 def clean_list(data):
-    print "The stopwords will be removed and the remaining words will be stemmized..."
+    print "The stopwords will be removed..."
     clean_description_list = []
 
     print len(data)
