@@ -1,3 +1,5 @@
+__author__="jose"
+
 def int_to_roman(input):
    """
    Convert an integer to Roman numerals.
@@ -55,10 +57,10 @@ def int_to_roman(input):
       input -= ints[i] * count
    return result
 
+def get_roman_numbers():
 
-roman_numbers = []
-for i in range(1, 1000):
-    roman_numbers.append(int_to_roman(i))
+    roman_numbers = []
+    for i in range(1, 1000):
+        roman_numbers.append(int_to_roman(i))
 
-print roman_numbers
-print [number.lower() for number in roman_numbers]
+    return [number.lower() for number in roman_numbers]
