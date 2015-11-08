@@ -9,8 +9,8 @@ def read_csv(filename):
     print csv_train.shape
     return csv_train
 
-def save_file(data, filename):
-    data.to_csv(clean_text_directory + filename, header=False, index=False)
+def save_file(data, directory, filename):
+    data.to_csv(directory + filename, header=False, index=False)
 
 def is_relevant(diario):
     return diario.startswith("dou") or diario.startswith("doe")

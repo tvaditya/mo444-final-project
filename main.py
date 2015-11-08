@@ -16,7 +16,7 @@ def clean_text():
 
     clean_description_list = data_helper.clean_list(train)
     train[integra_index] = clean_description_list
-    data_helper.save_file(train, filename)
+    data_helper.save_file(train, clean_text_directory, filename)
 
 def perform_vectorization():
     csv = data_helper.read_csv(clean_text_directory + filename)
