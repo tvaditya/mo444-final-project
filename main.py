@@ -20,10 +20,23 @@ def clean_text():
 
 def perform_vectorization():
     csv = data_helper.read_csv(clean_text_directory + filename)
-    clean_description_list = csv[integra_index][:size]
-    train_data_features, vocab = vectorization.create_bag_of_words(clean_description_list)
-    print_functions.print_examples(clean_description_list, train_data_features)
+    corpus = csv[integra_index][:size]
+    data_features, vocab = vectorization.create_bag_of_words(corpus)
+    print_functions.print_examples(corpus, data_features)
     print_functions.print_vocabulary(vocab)
+
+    df_data_features = pd.DataFrame(data_features)
+    data = pd.DataFrame(csv)
+    data = data[data.columns.values[:-1]]
+
+    new_columns = ["interesse", "exclusao", "diario", "tipo_ato"]
+    original_columns = data.columns.values
+    for i in range(0, len(original_columns)):
+        data[new_columns[i]] = data[original_columns[i]]
+
+    data = data[new_columns]
+    new_data = data.join(df_data_features)
+    data_helper.save_file(new_data, features_directory, filename)
 
 
 print "Train size: " + str(size)
