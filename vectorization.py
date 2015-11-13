@@ -1,6 +1,6 @@
 __author__ = 'jose'
 
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 def create_bag_of_words(description_list):
 
@@ -22,3 +22,8 @@ def create_bag_of_words(description_list):
     # array
     return train_data_features.toarray(), vectorizer.get_feature_names()
 
+
+def extract_tfidf(counts):
+    transformer = TfidfTransformer()
+    tfidf = transformer.fit_transform(counts)
+    return tfidf.toarray()
