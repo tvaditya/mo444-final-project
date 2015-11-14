@@ -84,26 +84,26 @@ def clean_text( raw_text ):
     # 10. Remove the roman numbers
     meaningful_words = [w for w in meaningful_words if not w in roman_numbers]
     #
-    # 11. Should stemmization be done? YES!
-    #meaningful_words = [stemmer.stem(word) for word in meaningful_words]
-    #
-    # 12. Removing the state initials
+    # 11. Removing the state initials
     meaningful_words = [w for w in meaningful_words if not w in state_initials]
     #
-    # 13. Removing the state names
+    # 12. Removing the state names
     meaningful_words = [w for w in meaningful_words if not w in state_names]
     #
-    # 14. Removing the state capital cities
+    # 13. Removing the state capital cities
     meaningful_words = [w for w in meaningful_words if not w in state_capitals]
     #
-    # 15. Removing the months
+    # 14. Removing the months
     meaningful_words = [w for w in meaningful_words if not w in months]
     #
-    # 16. Removing the single letters
+    # 15. Removing the single letters
     meaningful_words = [w for w in meaningful_words if not w in letters]
     #
-    # 17. Removing law words
+    # 16. Removing law words
     meaningful_words = [w for w in meaningful_words if not w in law_words]
+    #
+    # 17. Should stemmization be done? YES!
+    meaningful_words = [stemmer.stem(word) for word in meaningful_words]
     #
     # 18. Join the words back into one string separated by space,
     # and return the result.
