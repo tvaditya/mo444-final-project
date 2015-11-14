@@ -102,10 +102,13 @@ def clean_text( raw_text ):
     # 16. Removing law words
     meaningful_words = [w for w in meaningful_words if not w in law_words]
     #
-    # 17. Should stemmization be done? YES!
+    # 17. Removing web sites
+    meaningful_words = [w for w in meaningful_words if not w.startswith("www")]
+    #
+    # 18. Stemmization of the words
     meaningful_words = [stemmer.stem(word) for word in meaningful_words]
     #
-    # 18. Join the words back into one string separated by space,
+    # 19. Join the words back into one string separated by space,
     # and return the result.
     return( " ".join( meaningful_words ))
 
