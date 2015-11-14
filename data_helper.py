@@ -16,11 +16,13 @@ def clean_list(data):
     print "The stopwords will be removed..."
     clean_description_list = []
 
-    print len(data)
+    print "Number of items: " + str(len(data))
 
+    count = 0
     for i in data.index.values.tolist():
         clean_description_list.append(prepare_text.clean_text(data[integra_index][i]))
-        if i % 1000 == 0:
-            print i
+        if count % 1000 == 0:
+            print count
+        count += 1
     return clean_description_list
 
