@@ -3,9 +3,7 @@ __author__="jose"
 from constants import *
 import data_helper as dh
 
-
-filename = features_directory + "out-july-2015-dou.out"
-csv_features = dh.read_csv(filename)
+csv_features = dh.read_csv(features_directory + filename)
 
 size_entries = csv_features.shape[0]
 entries = csv_features.groupby([0])

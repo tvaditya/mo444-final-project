@@ -14,6 +14,4 @@ def apply_random_forest(filename):
     rf.test_random_forest()
 
 
-
-filename = features_directory + "out-july-2015-dou.out"
-apply_random_forest(filename)
+apply_random_forest(features_directory + filename)

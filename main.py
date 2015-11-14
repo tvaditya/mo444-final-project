@@ -7,8 +7,6 @@ import numpy as np
 
 size = 10000 # 15000
 
-filename = "out-july-2015-dou.out"
-
 threshold = 0.001
 
 def clean_text(publicacao = "", remove_excluidas = True):
