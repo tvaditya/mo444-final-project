@@ -10,7 +10,7 @@ def read_csv(filename):
     return csv_train
 
 def save_file(data, directory, filename):
-    data.to_csv(directory + filename, header=False, index=False)
+    data.to_csv(directory + filename, header=False, index=False, encoding='utf-8')
 
 def clean_list(data):
     print "The stopwords will be removed..."
