@@ -8,9 +8,6 @@ import numpy as np
 from sklearn.metrics import classification_report
 from sklearn.cross_validation import train_test_split
 
-train_size = 500
-#test_size = 7000
-
 class RandomForest:
 
     def __init__(self, data_path, estimators = 100):
@@ -21,15 +18,16 @@ class RandomForest:
         self.mean_values = {}
         self.std_values = {}
         self.estimators = estimators
+        self.train_size = len(self.csv) / 2
 
     def start_data(self):
 
         self.train_cols = self.csv.columns.values[1:]
 
-        self.x_train = self.csv[self.train_cols][:train_size]
-        self.y_train = self.csv[0][:train_size]
-        self.x_test = self.csv[self.train_cols][train_size + 1:]
-        self.y_test = self.csv[0][train_size + 1:]
+        self.x_train = self.csv[self.train_cols][:self.train_size]
+        self.y_train = self.csv[0][:self.train_size]
+        self.x_test = self.csv[self.train_cols][self.train_size + 1:]
+        self.y_test = self.csv[0][self.train_size + 1:]
 
         print "Size A: " + str(len(self.x_train))
         print "Size B: " + str(len(self.x_test))
