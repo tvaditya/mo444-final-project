@@ -14,6 +14,7 @@ from nltk.stem import WordNetLemmatizer
 
 from roman_numbers import get_roman_numbers
 import brazilian_locations as bl
+import itertools
 
 import unicodedata
 encoding = "utf-8"
@@ -32,6 +33,8 @@ wnl = WordNetLemmatizer()
 roman_numbers = get_roman_numbers()
 state_initials = bl.get_state_initials()
 state_names = bl.get_state_names()
+state_names = [state.split() for state in state_names]
+state_names = list(itertools.chain.from_iterable(state_names))
 
 def clean_text( raw_text ):
     # Function to convert a raw text to a string of words
