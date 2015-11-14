@@ -21,7 +21,7 @@ def clean_text():
     data[integra_index] = clean_description_list
     data_helper.save_file(data, clean_text_directory, filename)
 
-def perform_vectorization():
+def perform_vectorization(remove_excluidas = True):
     csv = data_helper.read_csv(clean_text_directory + filename)
     corpus = csv[integra_index][:size]
     counts, vocab = vectorization.create_bag_of_words(corpus)
@@ -41,13 +41,19 @@ def perform_vectorization():
     data = pd.DataFrame(csv)
     data = data[data.columns.values[:-1]]
 
-    new_columns = ["interesse"]#, "exclusao", "diario", "tipo_ato"]
+    new_columns = ["interesse", "exclusao"]#, "diario", "tipo_ato"]
     original_columns = data.columns.values
     for i in range(0, len(new_columns)):
         data[new_columns[i]] = data[original_columns[i]]
 
     data = data[new_columns]
     new_data = data.join(df_data_features)
+
+    if remove_excluidas:
+        # The ones that are not excluded remain in the data frame
+        new_data = new_data[new_data["exclusao"] == 0]
+
+    new_data = new_data.drop("exclusao", 1)
     data_helper.save_file(new_data, features_directory, filename)
 
 
