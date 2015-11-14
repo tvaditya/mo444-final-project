@@ -14,6 +14,7 @@ from nltk.stem import WordNetLemmatizer
 
 from roman_numbers import get_roman_numbers
 import brazilian_locations as bl
+from months import get_months
 import itertools
 
 import unicodedata
@@ -41,6 +42,7 @@ state_capitals = bl.get_state_capitals()
 state_capitals = [capital.split() for capital in state_capitals]
 state_capitals = list(itertools.chain.from_iterable(state_capitals))
 
+months = get_months()
 
 def clean_text( raw_text ):
     # Function to convert a raw text to a string of words
@@ -90,7 +92,10 @@ def clean_text( raw_text ):
     # 14. Removing the state capital cities
     meaningful_words = [w for w in meaningful_words if not w in state_capitals]
     #
-    # 15. Join the words back into one string separated by space,
+    # 15. Removing the months
+    meaningful_words = [w for w in meaningful_words if not w in months]
+    #
+    # 16. Join the words back into one string separated by space,
     # and return the result.
     return( " ".join( meaningful_words ))
 
