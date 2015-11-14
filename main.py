@@ -11,17 +11,26 @@ filename = "out-july-2015-dou.out"
 
 threshold = 0.001
 
-def clean_text():
+def clean_text(publicacao = "", remove_excluidas = True):
     csv = data_helper.read_csv(raw_directory + filename)
+
+    # Filter the "publicacao/diario"
+    if publicacao != "":
+        csv = csv[csv[diario_index] == publicacao]
+
+    # Filter the "regras de exclusao"
+    if remove_excluidas:
+        csv = csv[csv[regra_exclusao_index] == 0]
 
     # Slice the data to clean the text
     data = csv[:][:size]
 
     clean_description_list = data_helper.clean_list(data)
     data[integra_index] = clean_description_list
+
     data_helper.save_file(data, clean_text_directory, filename)
 
-def perform_vectorization(remove_excluidas = True):
+def perform_vectorization():
     csv = data_helper.read_csv(clean_text_directory + filename)
     corpus = csv[integra_index][:size]
     counts, vocab = vectorization.create_bag_of_words(corpus)
@@ -41,22 +50,16 @@ def perform_vectorization(remove_excluidas = True):
     data = pd.DataFrame(csv)
     data = data[data.columns.values[:-1]]
 
-    new_columns = ["interesse", "exclusao"]#, "diario", "tipo_ato"]
+    new_columns = ["interesse"]#, "exclusao", "diario", "tipo_ato"]
     original_columns = data.columns.values
     for i in range(0, len(new_columns)):
         data[new_columns[i]] = data[original_columns[i]]
 
     data = data[new_columns]
     new_data = data.join(df_data_features)
-
-    if remove_excluidas:
-        # The ones that are not excluded remain in the data frame
-        new_data = new_data[new_data["exclusao"] == 0]
-
-    new_data = new_data.drop("exclusao", 1)
     data_helper.save_file(new_data, features_directory, filename)
 
 
 print "Train size: " + str(size)
-clean_text()
+clean_text(publicacao = "dou")
 perform_vectorization()
