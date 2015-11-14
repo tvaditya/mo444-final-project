@@ -32,9 +32,15 @@ wnl = WordNetLemmatizer()
 
 roman_numbers = get_roman_numbers()
 state_initials = bl.get_state_initials()
+
 state_names = bl.get_state_names()
 state_names = [state.split() for state in state_names]
 state_names = list(itertools.chain.from_iterable(state_names))
+
+state_capitals = bl.get_state_capitals()
+state_capitals = [capital.split() for capital in state_capitals]
+state_capitals = list(itertools.chain.from_iterable(state_capitals))
+
 
 def clean_text( raw_text ):
     # Function to convert a raw text to a string of words
@@ -81,7 +87,10 @@ def clean_text( raw_text ):
     # 13. Removing the state names
     meaningful_words = [w for w in meaningful_words if not w in state_names]
     #
-    # 14. Join the words back into one string separated by space,
+    # 14. Removing the state capital cities
+    meaningful_words = [w for w in meaningful_words if not w in state_capitals]
+    #
+    # 15. Join the words back into one string separated by space,
     # and return the result.
     return( " ".join( meaningful_words ))
 
