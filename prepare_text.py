@@ -13,6 +13,7 @@ from nltk.stem import *
 from nltk.stem import WordNetLemmatizer
 
 from roman_numbers import get_roman_numbers
+import brazilian_locations as bl
 
 import unicodedata
 encoding = "utf-8"
@@ -29,6 +30,7 @@ stemmer = nltk.stem.RSLPStemmer()
 wnl = WordNetLemmatizer()
 
 roman_numbers = get_roman_numbers()
+state_initials = bl.get_state_initials()
 
 def clean_text( raw_text ):
     # Function to convert a raw text to a string of words
@@ -66,8 +68,11 @@ def clean_text( raw_text ):
     # 10. Remove the roman numbers
     meaningful_words = [w for w in meaningful_words if not w in roman_numbers]
     #
-    # 11. Should stemmization be done?
+    # 11. Should stemmization be done? YES!
     #meaningful_words = [stemmer.stem(word) for word in meaningful_words]
+    #
+    # 12. Removing the state initials
+    meaningful_words = [w for w in meaningful_words if not w in state_initials]
     #
     # 12. Join the words back into one string separated by space,
     # and return the result.
