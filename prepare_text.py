@@ -16,6 +16,7 @@ from roman_numbers import get_roman_numbers
 import brazilian_locations as bl
 from months import get_months
 from letters import get_letters
+from law_words import get_law_words
 import itertools
 
 import unicodedata
@@ -45,6 +46,7 @@ state_capitals = list(itertools.chain.from_iterable(state_capitals))
 
 months = get_months()
 letters = get_letters()
+law_words = get_law_words()
 
 def clean_text( raw_text ):
     # Function to convert a raw text to a string of words
@@ -100,7 +102,10 @@ def clean_text( raw_text ):
     # 16. Removing the single letters
     meaningful_words = [w for w in meaningful_words if not w in letters]
     #
-    # 17. Join the words back into one string separated by space,
+    # 17. Removing law words
+    meaningful_words = [w for w in meaningful_words if not w in law_words]
+    #
+    # 18. Join the words back into one string separated by space,
     # and return the result.
     return( " ".join( meaningful_words ))
 
