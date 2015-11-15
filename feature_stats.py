@@ -16,5 +16,8 @@ def print_stats(source_file, columns):
         print entry / float(size_entries)
 
 
+print "Interesse: "
 print_stats(features_directory + filename, [0])
+
+print "\nDiarios: "
 print_stats(clean_text_directory + filename, [diario_index])
