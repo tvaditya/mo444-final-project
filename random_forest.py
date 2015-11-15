@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import pandas as pd
 import statsmodels.api as sm
 from constants import *
@@ -71,18 +73,40 @@ class RandomForest:
 
 	right = 0
 	wrong = 0
+
+        # Initializing the Confusion Matrix
+        tp = 0
+        fn = 0
+        fp = 0
+        tn = 0
+
         self.create_confusion_matrix()
 	for i in range(0, len(self.y_test)):
 	    current_entry = self.y_test.iloc[i]
             if current_entry == result[i]:
                 right += 1
+                if current_entry == 1:
+                    tp += 1
+                else:
+                    tn += 1
             else:
                 wrong += 1
+                if current_entry == 1:
+                    fn += 1
+                else:
+                    fp += 1
             self.confusion_matrix[str(int(current_entry))][str(int(result[i]))] += 1
 
 	print "Right: " + str(right / float(right + wrong)) 
-	print "Wrong: " + str(wrong / float(right + wrong))
+	print "Wrong: " + str(wrong / float(right + wrong)) + "\n"
         #self.print_confusion_matrix()
+
+        print "      |------------|------------|"
+        print "      |   Î        |  NÎ        |"
+        print "|-----|------------|------------|"
+        print "|  I  | " + str(tp).zfill(5) + " (tp) | " + str(fn).zfill(5) + " (fn) |"
+        print "| NI  | "+ str(fp).zfill(5) + " (fp) | " + str(tn).zfill(5) + " (tn) |"
+        print "|-----|------------|------------|"
 
         # Prints the same confusion matrix using the sklearn implementation
         names = [str(item) for item in range(0,6)]
