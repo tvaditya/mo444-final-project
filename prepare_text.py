@@ -17,6 +17,7 @@ import brazilian_locations as bl
 from months import get_months
 from letters import get_letters
 from law_words import get_law_words
+from portuguese_names import get_portuguese_names
 import itertools
 
 import unicodedata
@@ -47,6 +48,7 @@ state_capitals = list(itertools.chain.from_iterable(state_capitals))
 months = get_months()
 letters = get_letters()
 law_words = get_law_words()
+portuguese_names = get_portuguese_names()
 
 def clean_text( raw_text ):
     # Function to convert a raw text to a string of words
@@ -65,6 +67,7 @@ def clean_text( raw_text ):
     # 4. Remove HTML
     review_text = BeautifulSoup(pre_text).get_text()
     #
+    # TODO use the one of the other file
     # 5. Remove Accents
     review_text = remove_accents(review_text)
     #
@@ -105,10 +108,13 @@ def clean_text( raw_text ):
     # 17. Removing web sites
     meaningful_words = [w for w in meaningful_words if not w.startswith("www")]
     #
-    # 18. Stemmization of the words
+    # 18. Removing names of people
+    meaningful_words = [w for w in meaningful_words if not w in portuguese_names]
+    #
+    # 19. Stemmization of the words
     meaningful_words = [stemmer.stem(word) for word in meaningful_words]
     #
-    # 19. Join the words back into one string separated by space,
+    # 20. Join the words back into one string separated by space,
     # and return the result.
     return( " ".join( meaningful_words ))
 
