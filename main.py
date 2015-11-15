@@ -38,12 +38,12 @@ def perform_vectorization():
     data_features = vectorization.extract_tfidf(counts)
     df_data_features = pd.DataFrame(data_features)
     columns_to_keep = []
-    print len(df_data_features.columns)
+    print "Total Columns: " + str(len(df_data_features.columns))
     for column in df_data_features.columns:
         if np.mean(df_data_features[column]) > threshold:
             columns_to_keep.append(column)
     df_data_features = df_data_features[columns_to_keep]
-    print len(columns_to_keep)
+    print "Columns to Keep: " + str(len(columns_to_keep))
 
     data = pd.DataFrame(csv)
     data = data[data.columns.values[:-1]]
