@@ -12,6 +12,8 @@ from bs4 import BeautifulSoup
 from nltk.stem import *
 from nltk.stem import WordNetLemmatizer
 
+from text_utils import remove_accents
+
 from roman_numbers import get_roman_numbers
 import brazilian_locations as bl
 from months import get_months
@@ -19,14 +21,6 @@ from letters import get_letters
 from law_words import get_law_words
 from portuguese_names import get_portuguese_names
 import itertools
-
-import unicodedata
-encoding = "utf-8"
-
-def remove_accents(input_str):
-    nfkd_form = unicodedata.normalize('NFKD', input_str)
-    only_ascii = nfkd_form.encode('ASCII', 'ignore')
-    return only_ascii
 
 #stemmer = SnowballStemmer("english")
 #stemmer = PorterStemmer()
