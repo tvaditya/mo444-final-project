@@ -14,7 +14,8 @@ def clean_text(publicacao = "", remove_excluidas = True):
 
     # Filter the "publicacao/diario"
     if publicacao != "":
-        csv = csv[csv[diario_index] == publicacao]
+        criterion = csv[diario_index].map(lambda x: x.startswith(publicacao))# or x.startswith('doe-sp'))
+        csv = csv[criterion]
 
     # Filter the "regras de exclusao"
     if remove_excluidas:
