@@ -42,6 +42,7 @@ state_capitals = list(itertools.chain.from_iterable(state_capitals))
 months = get_months()
 letters = get_letters()
 law_words = get_law_words()
+law_words = [stemmer.stem(word) for word in law_words]
 portuguese_names = get_portuguese_names()
 
 def clean_text( raw_text ):
@@ -96,17 +97,17 @@ def clean_text( raw_text ):
     # 15. Removing the single letters
     meaningful_words = [w for w in meaningful_words if not w in letters]
     #
-    # 16. Removing law words
-    meaningful_words = [w for w in meaningful_words if not w in law_words]
-    #
-    # 17. Removing web sites
+    # 16. Removing web sites
     meaningful_words = [w for w in meaningful_words if not w.startswith("www")]
     #
-    # 18. Removing names of people
+    # 17. Removing names of people
     meaningful_words = [w for w in meaningful_words if not w in portuguese_names]
     #
-    # 19. Stemmization of the words
+    # 18. Stemmization of the words
     meaningful_words = [stemmer.stem(word) for word in meaningful_words]
+    #
+    # 19. Removing law words
+    meaningful_words = [w for w in meaningful_words if not w in law_words]
     #
     # 20. Join the words back into one string separated by space,
     # and return the result.
