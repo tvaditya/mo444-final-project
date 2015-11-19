@@ -49,16 +49,42 @@ class RandomForest:
         print "Size A: " + str(len(self.x_train))
         print "Size B: " + str(len(self.x_test))
 
+    def get_smote_value(self, current_item, previous_item):
+        # It starts with 1, which is the value of the class of interest
+        new_item = [1]
+
+        for column in self.train_cols:
+            new_item.append((current_item[column] + previous_item[column]) / 2.0)
+
+        return new_item
+
     def train_random_forest(self):
 
-        # Initialize a Random Forest classifier with 100 trees
-        self.forest = RandomForestClassifier(n_estimators = self.estimators) 
+        # Initialize a Random Forest classifier with the number of trees
+        self.forest = RandomForestClassifier(n_estimators = self.estimators)
+
+        train_smote = pd.DataFrame(self.y_train)
+        train_smote = train_smote.join(self.x_train)
+
+        previous_item = None
+        smoted_items = []
+        for i in range(0, len(train_smote)):
+            entry = train_smote.iloc[i]
+            if entry[0] == 1:
+                if not(previous_item is None):
+                    smoted_item = self.get_smote_value(entry, previous_item)
+                    smoted_items.append(smoted_item)
+                previous_item = entry
+
+        # Adds the smoted itens in the data frame
+        df_smoted_items = pd.DataFrame(smoted_items, columns = self.csv.columns.values)
+        train_smote = pd.concat([train_smote, df_smoted_items])
 
         # Fit the forest to the training set, using the bag of words as 
         # features and the sentiment labels as the response variable
         #
         # This may take a few minutes to run
-        self.forest = self.forest.fit( self.x_train, self.y_train )
+        self.forest = self.forest.fit( train_smote[self.train_cols], train_smote[0] )
 
 ###################################################################
 
