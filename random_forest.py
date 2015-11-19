@@ -132,7 +132,9 @@ class RandomForest:
         print "|-----|------------|------------|"
         print "|  I  | " + str(tp).zfill(5) + " (tp) | " + str(fn).zfill(5) + " (fn) |"
         print "| NI  | "+ str(fp).zfill(5) + " (fp) | " + str(tn).zfill(5) + " (tn) |"
-        print "|-----|------------|------------|"
+        print "|-----|------------|------------|\n"
+
+        self.print_confusion_matrix(tp, fn, fp, tn)
 
         # Prints the same confusion matrix using the sklearn implementation
         names = [str(item) for item in range(0,6)]
@@ -153,25 +155,14 @@ class RandomForest:
         self.y_test = y
 
 
-    def print_confusion_matrix(self):
-        current_line = "   "
-        for i in range(0, 6):
-            current_line += "  " + str(i) + "   "
-        print current_line
-
+    def print_confusion_matrix(self, tp, fn, fp, tn):
         normalized_accuracy = []
-        for i in range(0, 6):
-            current_line = ""#str(i) + " "
-            sum_i = 0
-            for j in range(0, 6):
-                current_line += str(self.confusion_matrix[str(i)][str(j)]).zfill(5) + " "
-                sum_i += self.confusion_matrix[str(i)][str(j)]
-            normalized_accuracy.append(self.confusion_matrix[str(i)][str(i)] / float(sum_i))
-            #print current_line
-            self.format_percent(current_line, i)
+        normalized_accuracy.append(tp / float(tp+fn))
+        normalized_accuracy.append(tn / float(fp+tn))
+
         print "\nNormalized Accuracy: "
         print normalized_accuracy
-        print sum(normalized_accuracy) / 6.0
+        print sum(normalized_accuracy) / 2.0
 
     def print_percent(self, texto):
         lista = texto.strip().split(" ")
