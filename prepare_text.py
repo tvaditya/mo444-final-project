@@ -18,7 +18,7 @@ from roman_numbers import get_roman_numbers
 import brazilian_locations as bl
 from months import get_months
 from letters import get_letters
-from law_words import get_law_words
+from law_words import get_law_words, get_termos_interesse
 from portuguese_names import get_portuguese_names
 import itertools
 
@@ -43,6 +43,7 @@ months = get_months()
 letters = get_letters()
 law_words = get_law_words()
 law_words = [stemmer.stem(word) for word in law_words]
+termos_interesse = get_termos_interesse()
 portuguese_names = get_portuguese_names()
 
 def clean_text( raw_text ):
@@ -104,7 +105,7 @@ def clean_text( raw_text ):
     meaningful_words = [w for w in meaningful_words if not w in portuguese_names]
     #
     # 18. Stemmization of the words
-    meaningful_words = [stemmer.stem(word) for word in meaningful_words]
+    meaningful_words = [stemmer.stem(word) if not word in termos_interesse else word for word in meaningful_words]
     #
     # 19. Removing law words
     meaningful_words = [w for w in meaningful_words if not w in law_words]
