@@ -2,7 +2,7 @@ from random_forest import RandomForest
 from constants import *
 
 def apply_random_forest(filename):
-    rf = RandomForest(filename)
+    rf = RandomForest(filename, estimators=500)
 
     #rf.split_data()
     rf.start_data()
