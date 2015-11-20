@@ -28,8 +28,8 @@ class RandomForest:
 
         self.x_train = self.csv[self.train_cols][:self.train_size]
         self.y_train = self.csv[0][:self.train_size]
-        self.x_test = self.csv[self.train_cols][self.train_size + 1:]
-        self.y_test = self.csv[0][self.train_size + 1:]
+        self.x_test = self.csv[self.train_cols][self.train_size:]
+        self.y_test = self.csv[0][self.train_size:]
 
         print "Size A: " + str(len(self.x_train))
         print "Size B: " + str(len(self.x_test))
