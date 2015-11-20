@@ -58,15 +58,8 @@ class RandomForest:
 
         return new_item
 
-    def train_random_forest(self):
-
-        print "\nTrain: "
-
-        # Initialize a Random Forest classifier with the number of trees
-        self.forest = RandomForestClassifier(n_estimators = self.estimators, n_jobs=3)
-
-        train_smote = pd.DataFrame(self.y_train)
-        train_smote = train_smote.join(self.x_train)
+    def get_smote_data_frame(self, initial_train_smote):
+        train_smote = initial_train_smote
 
         previous_item = None
         smoted_items = []
@@ -82,16 +75,42 @@ class RandomForest:
         df_smoted_items = pd.DataFrame(smoted_items, columns = self.csv.columns.values)
         train_smote = pd.concat([train_smote, df_smoted_items])
 
+        return train_smote
+
+    def get_proportion(self, train_smote):
+        groupby = train_smote.groupby([0])
+        dict_proportion = {}
+        # Prints the proportion of each group (interesse/nao interesse)
+        for name, group in groupby:
+            entry = len(group)
+            proportion = entry / float(len(train_smote))
+            print "Group Name: " + str(name) + " / " + str(proportion)
+            dict_proportion[name] = proportion
+        return dict_proportion
+
+    def train_random_forest(self):
+
+        print "\nTrain: "
+
+        # Initialize a Random Forest classifier with the number of trees
+        self.forest = RandomForestClassifier(n_estimators = self.estimators, n_jobs=3)
+
+        train_smote = pd.DataFrame(self.y_train)
+        train_smote = train_smote.join(self.x_train)
+        train_smote = self.get_smote_data_frame(train_smote)
+
+        proportion = self.get_proportion(train_smote)
+        # If data is not balanced, applies smote again
+        if proportion[1] < 0.45:
+            train_smote = self.get_smote_data_frame(train_smote)
+            self.get_proportion(train_smote)
+
+
         # Fit the forest to the training set, using the bag of words as 
         # features and the sentiment labels as the response variable
         #
         # This may take a few minutes to run
         self.forest = self.forest.fit( train_smote[self.train_cols], train_smote[0])
-
-        # Prints the propotion of each group (interesse/nao interesse)
-        for name, group in train_smote.groupby([0]):
-            entry = len(group)
-            print "Group Name: " + str(name) + " / " + str( entry / float(len(train_smote)))
 
 ###################################################################
 
