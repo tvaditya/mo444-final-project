@@ -3,11 +3,12 @@ __author__ = 'jose'
 import pandas as pd
 import print_functions, vectorization, data_helper#, tfidf
 from constants import *
+from law_words import get_termos_interesse
 import numpy as np
 
 size = 10000 # 15000
 
-threshold = 0.001
+threshold = 0.0001
 
 def clean_text(publicacao = "", remove_excluidas = True):
     csv = data_helper.read_csv(raw_directory + filename)
@@ -37,11 +38,14 @@ def perform_vectorization():
     print_functions.print_vocabulary(vocab)
 
     data_features = vectorization.extract_tfidf(counts)
-    df_data_features = pd.DataFrame(data_features)
+    df_data_features = pd.DataFrame(data_features, columns=vocab)
     columns_to_keep = []
+    termos_interesse = get_termos_interesse()
+
     print "Total Columns: " + str(len(df_data_features.columns))
+    print df_data_features.columns
     for column in df_data_features.columns:
-        if np.mean(df_data_features[column]) > threshold:
+        if np.mean(df_data_features[column]) > threshold or column in termos_interesse:
             columns_to_keep.append(column)
     df_data_features = df_data_features[columns_to_keep]
     print "Columns to Keep: " + str(len(columns_to_keep))
