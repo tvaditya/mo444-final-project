@@ -8,7 +8,7 @@ import numpy as np
 
 size = 10000 # 15000
 
-threshold = 0.0001
+threshold = 0.001
 
 def clean_text(publicacao = "", remove_excluidas = True):
     csv = data_helper.read_csv(raw_directory + filename)
@@ -43,7 +43,6 @@ def perform_vectorization():
     termos_interesse = get_termos_interesse()
 
     print "Total Columns: " + str(len(df_data_features.columns))
-    print df_data_features.columns
     for column in df_data_features.columns:
         if np.mean(df_data_features[column]) > threshold or column in termos_interesse:
             columns_to_keep.append(column)
