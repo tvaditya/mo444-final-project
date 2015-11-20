@@ -60,8 +60,10 @@ class RandomForest:
 
     def train_random_forest(self):
 
+        print "\nTrain: "
+
         # Initialize a Random Forest classifier with the number of trees
-        self.forest = RandomForestClassifier(n_estimators = self.estimators)
+        self.forest = RandomForestClassifier(n_estimators = self.estimators, n_jobs=3)
 
         train_smote = pd.DataFrame(self.y_train)
         train_smote = train_smote.join(self.x_train)
@@ -84,13 +86,17 @@ class RandomForest:
         # features and the sentiment labels as the response variable
         #
         # This may take a few minutes to run
-        self.forest = self.forest.fit( train_smote[self.train_cols], train_smote[0] )
+        self.forest = self.forest.fit( train_smote[self.train_cols], train_smote[0])
+
+        # Prints the propotion of each group (interesse/nao interesse)
+        for name, group in train_smote.groupby([0]):
+            entry = len(group)
+            print "Group Name: " + str(name) + " / " + str( entry / float(len(train_smote)))
 
 ###################################################################
 
     def test_random_forest(self):
-        # Normalization
-        #self.x_test = self.apply_normalization(self.x_test)
+        print "\nTest:"
 
         # Use the random forest to make sentiment label predictions
         result = self.forest.predict(self.x_test)
@@ -141,7 +147,7 @@ class RandomForest:
         print(classification_report(list(self.y_test), list(result), target_names=names))
 
     def switch_folds(self):
-        print "\n2-fold cross validation \nSwitching folds...\n"
+        print "\n2-fold cross validation \nSwitching folds..."
 
         from copy import copy
 
