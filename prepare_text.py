@@ -57,60 +57,56 @@ def clean_text( raw_text ):
     # 2. Some states (such as Acre) uses "_" to separate a line
     pre_text = pre_text.replace("_", " ")
     #
-    # 3. Removes the ordinal character: changed in the orignal file
-    #pre_text = pre_text.replace(u"", " ")
-    #
-    # 4. Remove HTML
+    # 3. Remove HTML
     review_text = BeautifulSoup(pre_text).get_text()
     #
-    # TODO use the one of the other file
-    # 5. Remove Accents
+    # 4. Remove Accents
     review_text = remove_accents(review_text)
     #
-    # 6. Remove non-letters
+    # 5. Remove non-letters
     letters_only = re.sub("[^a-zA-Z ]", " ", review_text)
     #
-    # 7. Convert to lower case, split into individual words
+    # 6. Convert to lower case, split into individual words
     words = letters_only.lower().split()
     #
-    # 8. In Python, searching a set is much faster than searching
+    # 7. In Python, searching a set is much faster than searching
     #   a list, so convert the stop words to a set
     stops = set(stopwords.words("portuguese"))
     #
-    # 9. Remove stop words
+    # 8. Remove stop words
     meaningful_words = [w for w in words if not w in stops]
     #
-    # 10. Remove the roman numbers
+    # 9. Remove the roman numbers
     meaningful_words = [w for w in meaningful_words if not w in roman_numbers]
     #
-    # 11. Removing the state initials
+    # 10. Removing the state initials
     meaningful_words = [w for w in meaningful_words if not w in state_initials]
     #
-    # 12. Removing the state names
+    # 11. Removing the state names
     meaningful_words = [w for w in meaningful_words if not w in state_names]
     #
-    # 13. Removing the state capital cities
+    # 12. Removing the state capital cities
     meaningful_words = [w for w in meaningful_words if not w in state_capitals]
     #
-    # 14. Removing the months
+    # 13. Removing the months
     meaningful_words = [w for w in meaningful_words if not w in months]
     #
-    # 15. Removing the single letters
+    # 14. Removing the single letters
     meaningful_words = [w for w in meaningful_words if not w in letters]
     #
-    # 16. Removing web sites
+    # 15. Removing web sites
     meaningful_words = [w for w in meaningful_words if not w.startswith("www")]
     #
-    # 17. Removing names of people
+    # 16. Removing names of people
     meaningful_words = [w for w in meaningful_words if not w in portuguese_names]
     #
-    # 18. Stemmization of the words
+    # 17. Stemmization of the words
     meaningful_words = [stemmer.stem(word) if not word in termos_interesse else word for word in meaningful_words]
     #
-    # 19. Removing law words
+    # 18. Removing law words
     meaningful_words = [w for w in meaningful_words if not w in law_words]
     #
-    # 20. Join the words back into one string separated by space,
+    # 19. Join the words back into one string separated by space,
     # and return the result.
     return( " ".join( meaningful_words ))
 
