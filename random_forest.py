@@ -171,6 +171,9 @@ class RandomForest:
 
     def print_confusion_matrix(self, tp, fn, fp, tn):
         normalized_accuracy = []
+        if tp + fn == 0 or fp + tn == 0:
+            print "Either TP + FN or FP + TN is equal to zero"
+            return
         normalized_accuracy.append(tp / float(tp+fn))
         normalized_accuracy.append(tn / float(fp+tn))
 
