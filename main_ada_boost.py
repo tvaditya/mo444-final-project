@@ -2,7 +2,7 @@ from ada_boost import AdaBoost
 from constants import *
 
 def apply_ada_boost(filename, estimators):
-    ab = AdaBoost(filename, estimators=estimators)
+    ab = AdaBoost(filename, estimators=estimators, learning_rate=0.1)
 
     #ab.split_data()
     ab.start_data()

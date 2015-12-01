@@ -12,7 +12,7 @@ from sklearn.cross_validation import train_test_split
 
 class AdaBoost:
 
-    def __init__(self, data_path, estimators = 100):
+    def __init__(self, data_path, estimators = 100, learning_rate=0.1):
         self.result = 0
 	self.train_cols = []
 	self.csv = data_helper.read_csv(data_path)
@@ -20,6 +20,7 @@ class AdaBoost:
         self.mean_values = {}
         self.std_values = {}
         self.estimators = estimators
+        self.learning_rate = learning_rate
         self.train_size = len(self.csv) / 2
 
     def start_data(self):
@@ -34,6 +35,7 @@ class AdaBoost:
         print "Size A: " + str(len(self.x_train))
         print "Size B: " + str(len(self.x_test))
 
+        print "AdaBoost: \n Estimators = " + str(self.estimators) + "\n Learning Rate = " + str(self.learning_rate)
 
     def split_data(self):
         print "split_data"
@@ -63,7 +65,7 @@ class AdaBoost:
         print "\nTrain: "
 
         # Initialize the classifier
-        self.adaboost = AdaBoostClassifier(n_estimators = self.estimators)
+        self.adaboost = AdaBoostClassifier(n_estimators = self.estimators, learning_rate=self.learning_rate)
 
         train_smote = pd.DataFrame(self.y_train)
         train_smote = train_smote.join(self.x_train)
