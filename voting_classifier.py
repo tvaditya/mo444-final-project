@@ -12,7 +12,7 @@ from sklearn.svm import SVC
 import numpy as np
 from sklearn.metrics import classification_report
 from sklearn.cross_validation import train_test_split
-from classifier import teste_class
+from classifier import get_voting_classifier
 
 class VotingClassifier:
 
@@ -96,16 +96,8 @@ class VotingClassifier:
 
         print "\nTrain: "
 
-        # Initialize a Random Forest classifier with the number of trees
-        forest = RandomForestClassifier(n_estimators = self.estimators, n_jobs=3)
-        decision_tree = DecisionTreeClassifier(max_depth=15)
-        knn = KNeighborsClassifier(n_neighbors=15)
-        #svm = SVC(kernel='rbf', probability=True)
-
-        #self.classifier = VotingClassifier(estimators=[('rf', forest), ('dt', decision_tree), ('knn', knn)])
-
-
-        self.classifier = teste_class()#VotingClassifier(estimators=[('dt', clf1), ('knn', clf2), ('svc', clf3)], voting='soft', weights=[2, 1, 2])
+        # Initialize a Voting Classifier
+        self.classifier = get_voting_classifier()
 
         train_smote = pd.DataFrame(self.y_train)
         train_smote = train_smote.join(self.x_train)
@@ -116,7 +108,6 @@ class VotingClassifier:
         if proportion[1] < 0.45:
             train_smote = self.get_smote_data_frame(train_smote)
             self.get_proportion(train_smote)
-
 
         # Fit the forest to the training set, using the bag of words as 
         # features and the sentiment labels as the response variable

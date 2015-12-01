@@ -3,7 +3,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.ensemble import VotingClassifier, RandomForestClassifier, AdaBoostClassifier
 
-def teste_class():
+def get_voting_classifier():
     # Training classifiers
     forest = RandomForestClassifier(n_estimators = 100, n_jobs=3)
     decision_tree = DecisionTreeClassifier(max_depth=15)
