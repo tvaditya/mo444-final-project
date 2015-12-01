@@ -9,8 +9,7 @@ def create_bag_of_words(description_list):
     vectorizer = CountVectorizer(analyzer = "word",   \
                                  tokenizer = None,    \
                                  preprocessor = None, \
-                                 stop_words = None)#,   \
-                                 #max_features = 5000)
+                                 stop_words = None)
 
     # fit_transform() does two functions: First, it fits the model
     # and learns the vocabulary; second, it transforms our training data

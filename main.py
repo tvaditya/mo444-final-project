@@ -1,10 +1,11 @@
 __author__ = 'jose'
 
 import pandas as pd
-import print_functions, vectorization, data_helper#, tfidf
+import print_functions, vectorization, data_helper
 from constants import *
 from law_words import get_termos_interesse
 import numpy as np
+from word_cloud import create_word_cloud
 
 size = 15000
 
@@ -34,6 +35,9 @@ def perform_vectorization():
     csv = data_helper.read_csv(clean_text_directory + filename)
     corpus = csv[integra_index][:size]
     counts, vocab = vectorization.create_bag_of_words(corpus)
+
+    word_cloud.create_word_cloud(count, vocab)
+
     print_functions.print_examples(corpus, counts)
     print_functions.print_vocabulary(vocab)
 
