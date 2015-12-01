@@ -6,7 +6,7 @@ from constants import *
 from law_words import get_termos_interesse
 import numpy as np
 
-size = 10000 # 15000
+size = 15000
 
 threshold = 0.001
 
