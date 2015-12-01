@@ -1,7 +1,7 @@
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from sklearn.ensemble import VotingClassifier, RandomForestClassifier
+from sklearn.ensemble import VotingClassifier, RandomForestClassifier, AdaBoostClassifier
 
 def teste_class():
     # Training classifiers
