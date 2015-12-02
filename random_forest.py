@@ -97,8 +97,11 @@ class RandomForest:
 
         train_smote = pd.DataFrame(self.y_train)
         train_smote = train_smote.join(self.x_train)
+        print "Before Applying SMOTE:"
+        self.get_proportion(train_smote)
         train_smote = self.get_smote_data_frame(train_smote)
 
+        print "After Applying SMOTE:"
         proportion = self.get_proportion(train_smote)
         # If data is not balanced, applies smote again
         if proportion[1] < 0.45:
