@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Dec 02 01:39:48 2015
+
+@author: Aditya
 from constants import *
 
 def apply_svm_model(filename):
